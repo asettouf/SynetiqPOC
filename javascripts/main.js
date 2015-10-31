@@ -1,10 +1,17 @@
+var cursorX;
+
 $(document).ready(function(){
+
+    document.onmousemove = function(e){
+        cursorX = e.pageX;
+    }
     main();
 });
 //principal function to be run once document is ready
 var main = function(){
     drawScale("scale", 11);
     drawCursor("cursor");
+    moveObject("scale");
 };
 
 //draw the scale used with a canvas
@@ -54,3 +61,35 @@ var drawCursor = function(id){
     context.stroke();
     context.fill();
 }
+
+//move object on the x axis
+var moveObject = function(id){
+    var object = $("#" + id);
+    var mousedown = false;
+    $("#cursor").mousedown(function(){
+        mousedown = !mousedown;
+    });
+    object.mousemove(function(){
+        console.log("yoho");
+        if (mousedown){
+            moveCursor($("#cursor"));
+        }
+    });
+    /* use to stop moving when releasing the left click
+    $(document).mouseup(function(){
+        moveCursor($("#cursor"));
+        mousedown = false;
+    });*/
+
+}
+
+var moveCursor = function(object){
+    var leftObj = object.offset().left;
+    var topObj = object.offset().top;
+    object.offset({top: topObj, left: cursorX - object.width()/2})
+    console.log("cursor X " + cursorX);
+    console.log("left " + leftObj);
+}
+
+
+//setInterval("checkCursor()", 1000);
