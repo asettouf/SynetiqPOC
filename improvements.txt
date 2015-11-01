@@ -1,0 +1,5 @@
+UI: more friendly + responsive
+DB: *specific db user root
+    *spawn db for each video
+HTML: *use Jade to generate HTML programmatically
+CSS: *Use Less to compute css programatically
