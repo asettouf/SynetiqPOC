@@ -2,6 +2,12 @@
 var cursorX = 0;
 //@param: array with the position of scales
 var scales = [];
+//@param length of the video
+var timeWhenVideoEnds = 10;
+//@param current time in the video
+var currentTimeOfTheVideo = 0;
+//@param recording in a hash the sequence of like and dislike
+var resultOfTheUser = [];
 
 $(document).ready(function(){
     main();
@@ -12,15 +18,33 @@ var main = function(){
     drawScale("scale", 10);
     drawCursor("cursor");
     moveObject("scale");
-    setInterval('recordPosition("cursor")', 1000);
+    var intervalID = setInterval(function(){
+        recordPosition();
+        currentTimeOfTheVideo >= timeWhenVideoEnds ? clearInterval(intervalID) : "";
+    }, 1000);
 };
 
 
+var sendData = function(){
+    var tmpArray = {0:5, 1:6, 2:7,3:3,4:1};
+    $.ajax({
+        type: "POST",
+        url: "../testAjax.php",
+        data: "test="+ JSON.stringify(tmpArray),
+        dataType: "html"
+    })
+        .done(function(data){
+            console.log(data);
+        }).fail(function(error){
+            console.log(error);
+        });
+
+}
 
 //record the current position of the cursor every second, we round to the
 //closest scale since the cursor might go
-var recordPosition = function(id){
-    var cursor = $("#" + id);
+var recordPosition = function(){
+    var cursor = $("#cursor");
     var pos = cursor.offset().left + cursor.width()/2;
     var currentScale = 0;
     var scalesLength = scales.length;
@@ -34,6 +58,9 @@ var recordPosition = function(id){
             closestScaleDist = tempDist;
         }
     }
+    console.log(currentScale);
+    //increment of one second after setInterval execute the function
+    currentTimeOfTheVideo++;
 }
 
 //draw the scale used with a canvas
