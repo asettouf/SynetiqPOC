@@ -15,6 +15,8 @@ var main = function(){
     setInterval('recordPosition("cursor")', 1000);
 };
 
+
+
 //record the current position of the cursor every second, we round to the
 //closest scale since the cursor might go
 var recordPosition = function(id){
@@ -32,7 +34,6 @@ var recordPosition = function(id){
             closestScaleDist = tempDist;
         }
     }
-    console.log(currentScale);
 }
 
 //draw the scale used with a canvas
