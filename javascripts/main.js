@@ -9,6 +9,7 @@ var currentTimeOfTheVideo = 0;
 //@param recording in a hash the sequence of like and dislike
 var resultOfTheUser = [];
 
+
 $(document).ready(function(){
     main();
 });
@@ -20,7 +21,11 @@ var main = function(){
     moveObject("scale");
     var intervalID = setInterval(function(){
         recordPosition();
-        currentTimeOfTheVideo >= timeWhenVideoEnds ? clearInterval(intervalID) : "";
+        if(currentTimeOfTheVideo >= timeWhenVideoEnds){
+            sendData();
+            clearInterval(intervalID);
+        }
+        console.log(resultOfTheUser);
     }, 1000);
 };
 
@@ -58,8 +63,8 @@ var recordPosition = function(){
             closestScaleDist = tempDist;
         }
     }
-    console.log(currentScale);
     //increment of one second after setInterval execute the function
+    resultOfTheUser[currentTimeOfTheVideo] = currentScale;
     currentTimeOfTheVideo++;
 }
 
