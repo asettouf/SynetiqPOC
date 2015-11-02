@@ -43,10 +43,11 @@ var generateRandomArray = function(){
 
 //send as an ajax post request data regarding the watching of the video
 var sendData = function(){
+    var randarray = generateRandomArray();
     $.ajax({
         type: "POST",
-        url: "../testAjax.php",
-        data: "test="+ JSON.stringify(resultOfTheUser),
+        url: "/php/sendDataToDB.php",
+        data: "test="+ JSON.stringify(randarray),
         dataType: "html"
     })
         .done(function(data){
