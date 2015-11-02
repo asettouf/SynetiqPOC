@@ -30,12 +30,23 @@ var main = function(){
 };
 
 
+//return an array with values between 0 and 10, and of length timeWhenVideoEnds
+//@return{array}: array with random values between 0 and 10
+var generateRandomArray = function(){
+    var i = 0;
+    var randArray = []
+    for (i; i<timeWhenVideoEnds; i++){
+        randArray.push(Math.floor(Math.random()*11));
+    }
+    return randArray;
+}
+
+//send as an ajax post request data regarding the watching of the video
 var sendData = function(){
-    var tmpArray = {0:5, 1:6, 2:7,3:3,4:1};
     $.ajax({
         type: "POST",
         url: "../testAjax.php",
-        data: "test="+ JSON.stringify(tmpArray),
+        data: "test="+ JSON.stringify(resultOfTheUser),
         dataType: "html"
     })
         .done(function(data){
