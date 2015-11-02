@@ -2,3 +2,4 @@ Start event video? (Simulated or not)
 Slider moves (whole page? ...etc)
 What happens when a user is disconnected during the video (keep the record? Don't send the record? Cache JS (more time consuming)?)
 What if a user do several time the test? -> restrict by IP (could potentially block others)
+Cross browser compatibility?
