@@ -1,30 +1,37 @@
 google.load('visualization', '1.1', {packages: ['line']});
 var datasFromDBForGivenVideo = [];
 
+var createDataTableFromDBDatas = function(data){
+
+	data.addColumn('number', 'Seconds');
+	var i = 0;
+	for (i; i < datasFromDBForGivenVideo.length; i++){
+		data.addColumn("number", datasFromDBForGivenVideo[i][0]);
+	}
+
+	var dataArray = [];
+	var arrayToPush = [];
+	var j = 1;
+	console.log(datasFromDBForGivenVideo[0][1]);
+	for (j; j < datasFromDBForGivenVideo[0][1].length; j++){
+		i = 0;
+		arrayToPush.push(j);
+		for(i; i <datasFromDBForGivenVideo.length; i++ ){
+
+			arrayToPush.push(parseInt(datasFromDBForGivenVideo[i][1][j]));
+		}
+		dataArray.push(arrayToPush);
+		arrayToPush = [];
+	}
+	console.log(dataArray);
+	data.addRows(dataArray);
+	return data;
+}
+
 var drawChart = function() {
-	  retrieveDatasInJson();
+	console.log("hello");
 	  var data = new google.visualization.DataTable();
-	  data.addColumn('number', 'Seconds');
-	  data.addColumn('number', datasFromDBForGivenVideo[0][0]);
-	  data.addColumn('number', datasFromDBForGivenVideo[1][0]);
-
-	  data.addRows([
-		[1,  37.8],
-		[2,  30.9, 69.5],
-		[3,  25.4,   57],
-		[4,  11.7, 18.8],
-		[5,  11.9, 17.6],
-		[6,   8.8, 13.6],
-		[7,   7.6, 12.3],
-		[8,  12.3, 29.2],
-		[9,  16.9, 42.9],
-		[10, 12.8, 30.9],
-		[11,  5.3,  7.9],
-		[12,  6.6,  8.4],
-		[13,  4.8,  6.3],
-		[14,  4.2,  6.2]
-	  ]);
-
+	  data = createDataTableFromDBDatas(data);
 	  var options = {
 		chart: {
 		  title: 'User rating of the video'
@@ -50,14 +57,25 @@ var retrieveDatasInJson = function(){
 	})
 	.done(function(data){
 		datasFromDBForGivenVideo = JSON.parse(data);
-		console.log(data);
+		drawChart();
+		//console.log(data);
 		console.log("success");
 	}).fail(function(error){
 		console.log(error);
 	});
-
 }
 $(document).ready(function(){
+	var ready = false;
+	var interval = setInterval(function(){
+		if (ready){
+			console.log("yolo");
+			retrieveDatasInJson();
+			clearInterval(interval)
+		}
 
-	google.setOnLoadCallback(drawChart);
+	}, 1000);
+	google.setOnLoadCallback(function(){
+
+		ready = true;
 	});
+});
