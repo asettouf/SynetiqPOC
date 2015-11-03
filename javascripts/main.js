@@ -31,7 +31,7 @@ var main = function(){
 
 
 //return an array with values between 0 and 10, and of length timeWhenVideoEnds
-//@return{array}: array with random values between 0 and 10
+//@return array - array with random values between 0 and 10
 var generateRandomArray = function(){
     var i = 0;
     var randArray = []
@@ -81,8 +81,8 @@ var recordPosition = function(){
 }
 
 //draw the scale used with a canvas
-//@param {id}: id of the tag used to create the scale
-//@param {numOfVerticalBars}: number of Vertical bars for the scale
+//@param string id - id of the tag used to create the scale
+//@param int numOfVerticalBars - number of Vertical bars for the scale
 var drawScale = function(id, numOfVerticalBars){
     var scale = $("#" + id);
     var context = document.getElementById(id).getContext('2d');
@@ -103,7 +103,7 @@ var drawScale = function(id, numOfVerticalBars){
     }
 }
 //draw a cursor with a canvas
-//@param{id}: id of the tag used to create the cusrsor
+//@param string id - id of the tag used to create the cusrsor
 var drawCursor = function(id){
     var cursor = $("#" + id);
     var context = document.getElementById(id).getContext('2d');
@@ -130,7 +130,7 @@ var drawCursor = function(id){
 }
 
 //move object on the x axis
-//@param{id}: id of the parent of the cursor
+//@param string id - id of the parent of the cursor
 var moveObject = function(id){
     var object = $("#" + id);
     var mousedown = false;

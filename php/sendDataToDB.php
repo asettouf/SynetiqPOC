@@ -1,5 +1,7 @@
 <?php
 
+//@author Adonis Settouf <adonis.settouf@gmail.com>
+
 function main(){
 
     //to DO: add method to read that from cred file
@@ -28,6 +30,10 @@ function main(){
 //insert records each second into the db
 //The keys in the array are actually the second with the method
 //used in the javascript method
+//@param int $userId - Id of the user which records are saved
+//@param int $videoId - Id of the video for which records are saved
+//@ param array $array - Array containing the values, the keys being the seconds
+//@param mysqli object $conn - Connection to the SQL database
 function createRecordsFromArray($userId, $videoId, $array, $conn){
 
     $statement = $conn -> prepare("INSERT INTO Records(SECOND, VALUE, USERID, VIDEOID) VALUES(?,?,?,?)");
@@ -39,6 +45,8 @@ function createRecordsFromArray($userId, $videoId, $array, $conn){
 }
 
 //create a new User every time a valid ajax call is received
+//@param mysqli object $conn - Connection to the SQL database
+//@param int $id - id of the user created
 function createNewUser($conn, $id){
 
 
@@ -52,10 +60,12 @@ function createNewUser($conn, $id){
 
 }
 
-//find the last userid in the table to create a new one for the ajax call
-function findLastIdInTable($connection, $table){
+//find the last id in the table to create a new one for the ajax call
+//@param mysqli object $conn - Connection to the SQL database
+//@param string $table - table name for which we want to retrieve the last id
+function findLastIdInTable($conn, $table){
     $query = "SELECT * FROM ".$table;
-    $result = $connection -> query($query);
+    $result = $conn -> query($query);
     $i = 0;
     if ($result -> num_rows > 0){
         while ($row = $result -> fetch_assoc()){
