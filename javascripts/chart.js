@@ -1,7 +1,12 @@
-google.load('visualization', '1.1', {packages: ['line']});
-var datasFromDBForGivenVideo = [];
+//@author Adonis Settouf <adonis.settouf@gmail.com>
 
-var createDataTableFromDBDatas = function(data){
+//load the necessary google library to draw a line chart
+google.load('visualization', '1.1', {packages: ['line']});
+
+//create the array needed to draw the chart
+//@param data google.DataTable - datatable that holds the structure to draw the chart
+//@param array datasFromDBForGivenVideo - holds data from the database
+var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 
 	data.addColumn('number', 'Seconds');
 	var i = 0;
@@ -28,10 +33,11 @@ var createDataTableFromDBDatas = function(data){
 	return data;
 }
 
-var drawChart = function() {
+//draw the chart with google lib
+var drawChart = function(datasFromDBForGivenVideo) {
 	console.log("hello");
 	  var data = new google.visualization.DataTable();
-	  data = createDataTableFromDBDatas(data);
+	  data = createDataTableFromDBDatas(data, datasFromDBForGivenVideo);
 	  var options = {
 		chart: {
 		  title: 'User rating of the video'
@@ -46,7 +52,8 @@ var drawChart = function() {
 }
 
 
-
+//retrieve datas from the database with an ajax call, then start the drawing once datas
+//are loaded from the database
 var retrieveDatasInJson = function(){
 	$.ajax({
 	type: "GET",
@@ -56,8 +63,8 @@ var retrieveDatasInJson = function(){
 	}
 	})
 	.done(function(data){
-		datasFromDBForGivenVideo = JSON.parse(data);
-		drawChart();
+		var datasFromDBForGivenVideo = JSON.parse(data);
+		drawChart(datasFromDBForGivenVideo);
 		//console.log(data);
 		console.log("success");
 	}).fail(function(error){
@@ -66,6 +73,9 @@ var retrieveDatasInJson = function(){
 }
 $(document).ready(function(){
 	var ready = false;
+	//here we need  to load google api and load data from the ajax call
+	//so, we set a boolean that indicates the loading of google library is done
+	//then we do the ajax call.
 	var interval = setInterval(function(){
 		if (ready){
 			console.log("yolo");

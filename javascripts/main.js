@@ -1,12 +1,12 @@
-//@param: position of the cursor along the x axis
+//@param cursorX int - position of the cursor along the x axis
 var cursorX = 0;
-//@param: array with the position of scales
+//@param scales array - the position of the scales
 var scales = [];
-//@param length of the video
+//@param timeWhenVideoEnds int - length of the video in seconds
 var timeWhenVideoEnds = 10;
-//@param current time in the video
+//@param currentTimeOfTheVideo int - current time in the video in seconds
 var currentTimeOfTheVideo = 0;
-//@param recording in a hash the sequence of like and dislike
+//@param resultOfTheUser array - ecording in a hash the user rating
 var resultOfTheUser = [];
 
 

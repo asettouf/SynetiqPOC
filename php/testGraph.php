@@ -1,5 +1,6 @@
 <?php
 
+//respond to get call to send datas from db (needs an id to retrieve relevant datas)
 function main() {
 	$url = $_GET["chardata"];
 	$videoId = $_GET["videoId"]; //to change with the ajax call
@@ -11,22 +12,10 @@ function main() {
 	}
 }
 
-function convertArray($array){
-	$previousUserId = $array[0]["userid"];
-	$finalArray["body"] = ["userid" => [$previousUserId => [["second" => 3], ["value" => 4]]]];
 
-	//echo $finalArray[0];
-	//print_r(var_dump($finalArray));
-	foreach($array as $key => $values){
-		//echo "Big key is ".$key."<br/>";
-		$currentUserId = $array[$key]["userid"];
-
-		foreach($values as $k => $value){
-			//echo "Key: ".$k." has value: ".$value."<br/>";
-		}
-	}
-}
-
+//retrieve datas from the db and put them in a suitable format
+//@param int videoid - id of the videos for the records taken from the db
+//@return array $valueArray - array with values and userid retrieved from the db
 function retrieveDatasFromDB($videoId){
     $servername = "localhost";
     $username = "test";
