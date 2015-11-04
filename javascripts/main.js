@@ -1,5 +1,13 @@
+//@author Adonis Settouf <adonis.settouf@gmail.com>
+
 //@param cursorX int - position of the cursor along the x axis
 var cursorX = 0;
+//@param currentUserId int - User created for this recording
+var currentUserId = 0;
+//@param currentSecond int - Current time of the video
+var currentSecond = 0;
+//@param currentCursorValue int - Current value of the cursor
+var currentCursorValue = 5;
 //@param scales array - the position of the scales
 var scales = [];
 //@param timeWhenVideoEnds int - length of the video in seconds
@@ -12,6 +20,7 @@ var resultOfTheUser = [];
 
 $(document).ready(function(){
     main();
+    retrieveUserId();
 });
 
 //principal function to be run once document is ready
@@ -20,12 +29,12 @@ var main = function(){
     drawCursor("cursor");
     moveObject("scale");
     var intervalID = setInterval(function(){
-        recordPosition();
         if(currentTimeOfTheVideo >= timeWhenVideoEnds){
-            sendData();
+            //sendData();
             clearInterval(intervalID);
         }
-        console.log(resultOfTheUser);
+        recordPosition();
+        sendOneSecond();
     }, 1000);
 };
 
@@ -41,6 +50,20 @@ var generateRandomArray = function(){
     return randArray;
 }
 
+//retrieve the next user id
+var retrieveUserId = function(){
+    $.ajax({
+	type: "GET",
+	url: "/php/sendDataToDB.php",
+	data: "uid"
+	})
+	.done(function(data){
+        console.log(data);
+        currentUserId = data;
+    }).error(function(error){
+        console.log(error);
+    });
+}
 //send as an ajax post request data regarding the watching of the video
 var sendData = function(){
     var randarray = generateRandomArray();
@@ -56,6 +79,24 @@ var sendData = function(){
             console.log(error);
         });
 
+}
+
+//post one second to DB
+var sendOneSecond = function(){
+    console.log(currentSecond);
+    $.ajax({
+        type: "POST",
+        url: "/php/sendDataToDB.php",
+        data: {"uid" : currentUserId,
+                "second" : currentSecond,
+                "value" : currentCursorValue
+        }
+    })
+        .done(function(data){
+            console.log(data);
+        }).fail(function(error){
+            console.log(error);
+        });
 }
 
 //record the current position of the cursor every second, we round to the
@@ -76,7 +117,8 @@ var recordPosition = function(){
         }
     }
     //increment of one second after setInterval execute the function
-    resultOfTheUser[currentTimeOfTheVideo] = currentScale;
+    currentSecond = currentTimeOfTheVideo;
+    currentCursorValue = currentScale;
     currentTimeOfTheVideo++;
 }
 
