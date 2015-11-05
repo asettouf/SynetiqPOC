@@ -60,6 +60,9 @@ var main = function(){
 		} else{
 			console.log("Not connected or connection was not lost");
 		}
+        if(!wasConnectionLost && currentTimeOfTheVideo >= timeWhenVideoEnds){
+            clearInterval(intervalDuringDisconnection);
+        }
 	}, 100);
 };
 

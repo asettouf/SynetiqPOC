@@ -1,8 +1,7 @@
 <?php
 include "DBUtils.php";
 function sendUserId(){
-    $url = $_GET["uid"];
-    if( isset($url)){
+    if( isset($_GET["uid"])){
         $id = findLastIdInTable("Users");
         $id++;
         createNewUser($id);
@@ -11,10 +10,10 @@ function sendUserId(){
 
 }
 function postOneSecond(){
-    $second = $_POST["second"];
-    $value = $_POST["value"];
-    $userId = $_POST["uid"];
-    if (isset($second)  && isset($value) && !empty($value) && isset($userId) && !empty($userId)){
+    if (isset($_POST["second"])  && isset($_POST["value"]) && !empty($_POST["value"]) && isset($_POST["uid"]) && !empty($_POST["uid"])){
+        $second = $_POST["second"];
+        $value = $_POST["value"];
+        $userId = $_POST["uid"];
         echo $second;
         createRecordsForASecond($userId, 1, $second, $value, $GLOBALS["conn"]);
     }
