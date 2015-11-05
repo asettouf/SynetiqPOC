@@ -42,10 +42,20 @@ var main = function(){
 		
 		recordPosition();
 		checkConnection();
-		if (isConnected){
-			sendOneSecond();
+		if (!isConnected){
+			sendOneSecond(currentUserId, currentSecond, currentCursorValue);
 		}else{
 			createBackupArray();
+			//check connection every 100 ms, 
+			//send the backup datas when connection is reestablished
+			var intervalDuringDisconnection = setInterval(function(){
+				console.log("not connected :(");
+				checkConnection();
+				if (isConnected){
+					sendBackupArray();
+					clearInterval(intervalDuringDisconnection);
+				}
+			}, 100);
 		}
 		
     }, INTERVAL_DELTA);
@@ -70,7 +80,19 @@ var createBackupArray = function(){
 	"Value" : currentCursorValue});
 	localStorage.setItem("backupArray", JSON.stringify(backupArray));
 }
+
+var sendBackupArray = function(){
 	
+	backupArray = JSON.parse(localStorage.getItem("backupArray"));
+	console.log(backupArray);
+	var i = 0;
+	for (i; i< backupArray.currentUserValues.length; i++){
+		sendOneSecond(currentUserId,backupArray.currentUserValues[i].Second, backupArray.currentUserValues[i].Value); 
+	}
+	backupArray = {currentUserValues: []}; 
+	localStorage.setItem("backupArray", JSON.stringify(backupArray));
+	
+}
 //return an array with values between 0 and 10, and of length timeWhenVideoEnds
 //@return array - array with random values between 0 and 10
 var generateRandomArray = function(){
@@ -99,31 +121,16 @@ var retrieveUserId = function(){
         console.log(error);
     });
 }
-//send as an ajax post request data regarding the watching of the video
-var sendData = function(){
-    var randarray = generateRandomArray();
+
+
+//post one second to DB with ajax POST request
+var sendOneSecond = function(userId, second, value){
     $.ajax({
         type: "POST",
         url: "../php/sendDataToDB.php",
-        data: "test="+ JSON.stringify(randarray),
-        dataType: "html"
-    })
-        .done(function(data){
-            console.log(data);
-        }).fail(function(error){
-            console.log(error);
-        });
-
-}
-
-//post one second to DB
-var sendOneSecond = function(){
-    $.ajax({
-        type: "POST",
-        url: "../php/sendDataToDB.php",
-        data: {"uid" : currentUserId,
-                "second" : currentSecond,
-                "value" : currentCursorValue
+        data: {"uid" : userId,
+                "second" : second,
+                "value" : value
         }
     })
 	.done(function(data){
