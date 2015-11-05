@@ -17,8 +17,6 @@ var scales = [];
 var timeWhenVideoEnds = 10;
 //@param currentTimeOfTheVideo int - current time in the video in seconds
 var currentTimeOfTheVideo = 0;
-//@param resultOfTheUser array - ecording in a hash the user rating
-var resultOfTheUser = [];
 //@param isConnected boolean - Switch to false if connection is interrupted
 var isConnected = true;
 //@param backupArray array - Array stored in local storage in case of connection failure
@@ -35,30 +33,34 @@ var main = function(){
     drawCursor("cursor");
     moveObject("scale");
 	retrieveUserId();
+	var wasConnectionLost = false;
     var intervalID = setInterval(function(){
         if(currentTimeOfTheVideo >= timeWhenVideoEnds){
             clearInterval(intervalID);
         }
-		
+
 		recordPosition();
-		checkConnection();
-		if (!isConnected){
+		if (isConnected){
 			sendOneSecond(currentUserId, currentSecond, currentCursorValue);
 		}else{
+			wasConnectionLost = true;
 			createBackupArray();
-			//check connection every 100 ms, 
-			//send the backup datas when connection is reestablished
-			var intervalDuringDisconnection = setInterval(function(){
-				console.log("not connected :(");
-				checkConnection();
-				if (isConnected){
-					sendBackupArray();
-					clearInterval(intervalDuringDisconnection);
-				}
-			}, 100);
 		}
-		
+
     }, INTERVAL_DELTA);
+	//check connection every 100 ms,
+	//send the backup datas when connection is reestablished
+	var intervalDuringDisconnection = setInterval(function(){
+		checkConnection();
+		console.log(isConnected && wasConnectionLost);
+		if (isConnected && wasConnectionLost){
+			sendBackupArray();
+			clearInterval(intervalDuringDisconnection);
+            wasConnectionLost = false;
+		} else{
+			console.log("Not connected or connection was not lost");
+		}
+	}, 100);
 };
 
 var checkConnection = function(){
@@ -82,16 +84,16 @@ var createBackupArray = function(){
 }
 
 var sendBackupArray = function(){
-	
+
 	backupArray = JSON.parse(localStorage.getItem("backupArray"));
 	console.log(backupArray);
 	var i = 0;
 	for (i; i< backupArray.currentUserValues.length; i++){
-		sendOneSecond(currentUserId,backupArray.currentUserValues[i].Second, backupArray.currentUserValues[i].Value); 
+		sendOneSecond(currentUserId,backupArray.currentUserValues[i].Second, backupArray.currentUserValues[i].Value);
 	}
-	backupArray = {currentUserValues: []}; 
+	backupArray = {currentUserValues: []};
 	localStorage.setItem("backupArray", JSON.stringify(backupArray));
-	
+
 }
 //return an array with values between 0 and 10, and of length timeWhenVideoEnds
 //@return array - array with random values between 0 and 10

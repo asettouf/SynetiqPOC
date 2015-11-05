@@ -2,28 +2,28 @@
 
 //load the necessary google library to draw a line chart
 google.load('visualization', '1.1', {packages: ['line']});
-
+var dd;
 //create the array needed to draw the chart
 //@param data google.DataTable - datatable that holds the structure to draw the chart
 //@param array datasFromDBForGivenVideo - holds data from the database
 var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
-
+	dd = datasFromDBForGivenVideo;
 	data.addColumn('number', 'Seconds');
 	var i = 0;
-	for (i; i < datasFromDBForGivenVideo.length; i++){
-		data.addColumn("number", datasFromDBForGivenVideo[i][0]);
+	for (i; i < datasFromDBForGivenVideo.user.length; i++){
+		//console.log("User" + datasFromDBForGivenVideo.user[i].id);
+		data.addColumn("number", "User" + datasFromDBForGivenVideo.user[i].id);
 	}
 
 	var dataArray = [];
 	var arrayToPush = [];
-	var j = 1;
-	console.log(datasFromDBForGivenVideo[0][1]);
-	for (j; j < datasFromDBForGivenVideo[0][1].length; j++){
+	var j = 0;
+	for (j; j < 10; j++){
 		i = 0;
 		arrayToPush.push(j);
-		for(i; i <datasFromDBForGivenVideo.length; i++ ){
-
-			arrayToPush.push(parseInt(datasFromDBForGivenVideo[i][1][j]));
+		for(i; i <datasFromDBForGivenVideo.user.length; i++ ){
+			//console.log(datasFromDBForGivenVideo.user[i]);
+			arrayToPush.push(parseInt(datasFromDBForGivenVideo.user[i].values[j]));
 		}
 		dataArray.push(arrayToPush);
 		arrayToPush = [];
@@ -51,6 +51,18 @@ var drawChart = function(datasFromDBForGivenVideo) {
 	  chart.draw(data, options);
 }
 
+var retrieveVideoLength = function(){
+	$.ajax({
+	type: "GET",
+	url: "/php/testGraph.php",
+	data: "videoIdlength": 1
+	})
+	.done(function(data){
+
+	}).error(function(error){
+		console.log(error);
+	});
+}
 
 //retrieve datas from the database with an ajax call, then start the drawing once datas
 //are loaded from the database
@@ -58,14 +70,14 @@ var retrieveDatasInJson = function(){
 	$.ajax({
 	type: "GET",
 	url: "/php/testGraph.php",
-	data: {"chardata": "",
+	data: {"chartdata": "",
 			"videoId": 1
 	}
 	})
 	.done(function(data){
+		//console.log(data[0]);
 		var datasFromDBForGivenVideo = JSON.parse(data);
 		drawChart(datasFromDBForGivenVideo);
-		//console.log(data);
 		console.log("success");
 	}).fail(function(error){
 		console.log(error);
@@ -78,7 +90,6 @@ $(document).ready(function(){
 	//then we do the ajax call.
 	var interval = setInterval(function(){
 		if (ready){
-			console.log("yolo");
 			retrieveDatasInJson();
 			clearInterval(interval)
 		}

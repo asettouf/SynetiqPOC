@@ -24,10 +24,10 @@
 	//@param int videoid - id of the videos for the records taken from the db
 	//@return array $valueArray - array with values and userid retrieved from the db
 	function retrieveDatasFromDB($videoId){
-		$query = "SELECT Records.userid, value FROM Records WHERE Records.videoid=".$videoId.';';
+		$query = "SELECT Records.userid, value, second FROM Records WHERE Records.videoid=".$videoId.' ORDER BY userid, second;';
 		$result = $GLOBALS["conn"] -> query($query);
-		$valueArray = array();
-		$userValues = array();
+		$valueArray = array("user" => array());
+		$userValues = array("id" => 0, "values" => array());
 		$i = 0;
 		 if ($result -> num_rows > 0){
 			 $allRows = $result -> fetch_all(MYSQLI_ASSOC);
@@ -35,24 +35,33 @@
 			foreach ($allRows as $row){
 				$i++;
 				$currentUser = $row["userid"];
-				array_push($userValues, $row["value"]);
+                $userValues["id"] = $currentUser;
+				array_push($userValues["values"], $row["value"]);
 				if ($i < count($allRows)){
 					$nextUser = $allRows[$i]["userid"];
 					//print_r(var_dump($userValues));
 					if (strcmp($currentUser, $nextUser)){
-						array_push($valueArray, array("User".$currentUser, $userValues));
-						$userValues = array();
+						array_push($valueArray["user"], $userValues);
+						$userValues = array("id" => 0, "values" => array());
 					}
 				} else{
-					array_push($valueArray, array("User".$currentUser, $userValues));
+					array_push($valueArray["user"], $userValues);
 				}
 			}
 		} else {
 			echo "O rows";
 		}
+        //print_r(var_dump($valueArray));
 		$GLOBALS["conn"]-> close();
 		return $valueArray;
 	}
+    //retrieve video length from DB
+    function getVideoLengthFromDB($videoId){
+        $query = "SELECT Length FROM Videos WHERE Videos.VideoID=".$videoId.";";
+        $result = $GLOBALS["conn"] -> query($query);
+
+        return $result -> fetch_assoc()["Length"];
+    }
 	//insert records each second into the db
 	//The keys in the array are actually the second with the method
 	//used in the javascript method

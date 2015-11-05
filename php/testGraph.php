@@ -1,15 +1,22 @@
 <?php
 include "DBUtils.php";
 //respond to get call to send datas from db (needs an id to retrieve relevant datas)
-function main() {
-	$url = $_GET["chartdata"];
-	$videoId = $_GET["videoId"]; //to change with the ajax call
-	echo $url;
-	if (isset($url) && isset($videoId) && !empty($videoId)){
+function sendResultArray() {
+	//echo $isRequestingChart;
+	if (isset($_GET["chartdata"]) && isset($_GET["videoId"]) && !empty($_GET["videoId"])){
+		$videoId = $_GET["videoId"];
 		$resultArray = retrieveDatasFromDB($videoId);
-		echo json_encode($resultArray);
+		$resultJson = json_encode($resultArray);
+		echo $resultJson;
 	}
-	$GLOBALS["conn"]-> close();
+
 }
-main();
+function sendVideoLength(){
+	if (isset($_GET["videoIdlength"]) && !empty($_GET["videoIdlength"])){
+		$length = getVideoLengthFromDB($_GET["videoIdlength"]);
+		echo $length;
+	}
+}
+sendVideoLength();
+sendResultArray();
 ?>
