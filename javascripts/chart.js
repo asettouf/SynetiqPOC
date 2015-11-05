@@ -14,7 +14,8 @@ var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 		//console.log("User" + datasFromDBForGivenVideo.user[i].id);
 		data.addColumn("number", "User" + datasFromDBForGivenVideo.user[i].id);
 	}
-
+	data.addColumn("number", "Average");
+	var average = 0;
 	var dataArray = [];
 	var arrayToPush = [];
 	var j = 0;
@@ -23,9 +24,15 @@ var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 		arrayToPush.push(j);
 		for(i; i <datasFromDBForGivenVideo.user.length; i++ ){
 			//console.log(datasFromDBForGivenVideo.user[i]);
-			arrayToPush.push(parseInt(datasFromDBForGivenVideo.user[i].values[j]));
+			var value = parseInt(datasFromDBForGivenVideo.user[i].values[j]);
+			arrayToPush.push(isNaN(value) ? null: value);
+			average += isNaN(value) ?
+						0 : value;
 		}
+		console.log(average/datasFromDBForGivenVideo.user.length);
+		arrayToPush.push(average/datasFromDBForGivenVideo.user.length);
 		dataArray.push(arrayToPush);
+		average = 0;
 		arrayToPush = [];
 	}
 	console.log(dataArray);
@@ -55,7 +62,7 @@ var retrieveVideoLength = function(){
 	$.ajax({
 	type: "GET",
 	url: "/php/testGraph.php",
-	data: "videoIdlength": 1
+	data: {"videoIdlength": 1}
 	})
 	.done(function(data){
 
