@@ -56,7 +56,7 @@ var drawCursor = function(id){
 var moveObject = function(id){
     var object = $("#" + id);
     var mousedown = false;
-    $("#cursor").mousedown(function(){
+    $("#video").mousedown(function(){
         mousedown = !mousedown;
     });
     object.mousemove(function(e){
@@ -128,7 +128,7 @@ var checkDisconnected = function(videoLength){
 var init = function(video, videoLength){
 	if (isRecordingPossible){
 		video.play();
-        $("#playbutton").toggleClass("hidden");
+        $("#playbutton").hasClass("hidden")? "": $("#playbutton").toggleClass("hidden");
 		isEnded? "" : startRecording(videoLength);
 		checkDisconnected(videoLength);
 	}
