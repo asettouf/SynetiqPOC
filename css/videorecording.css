@@ -2,3 +2,11 @@
     position: absolute;
     left: 16.3%;
 }
+
+#intro{
+    width: 400px;
+}
+
+.align-middle{
+    margin: auto;
+}

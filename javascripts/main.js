@@ -36,6 +36,7 @@ var main = function(){
     moveObject("scale");
 	retrieveUserId();
 	var videoLength = 0;
+    var videoWrapper = document.getElementById("video");
 	var video = document.getElementById("videoTest");
 	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){
@@ -46,8 +47,8 @@ var main = function(){
 	if(video.readyState > 3) {
         videoLength = onVideoLoaded(video);
 	}
-	video.addEventListener("click", function(){
-		init(this, videoLength);
+	videoWrapper.addEventListener("click", function(){
+		init(video, videoLength);
 	});
 }
 

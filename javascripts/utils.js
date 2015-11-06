@@ -128,6 +128,7 @@ var checkDisconnected = function(videoLength){
 var init = function(video, videoLength){
 	if (isRecordingPossible){
 		video.play();
+        $("#playbutton").toggleClass("hidden");
 		isEnded? "" : startRecording(videoLength);
 		checkDisconnected(videoLength);
 	}

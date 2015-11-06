@@ -17,19 +17,20 @@
             Click on the image to start the playback.
         </p>
     </div>
-    <div id="video" class="align-middle">
-        <img src="loader.gif" class="loading"/>
+    <div id="video">
+        <img src="loader.gif" class="loading align-middle"/>
         <img id="playbutton" src="playbutton.png" class="loading hidden"/>
-		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="400" height="300" class="hidden loading">
+		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="400" height="300" class="align-middle hidden loading">
             Your browser can't read this video
 		</video>
     </div>
-    <div class="align-middle">
-        <div id='dislike' class="left">Dislike</div>
-        <div id='like' class="right">Like!</div>
+    <div class="wrapper">
         <div id='ruler'>
+            <div id='dislike' class="right">Dislike</div>
+            <div id="like" class="left">Like!</div>
             <canvas id="scale" width="400" height="100"></canvas>
             <canvas id="cursor" width="25" height="100"></canvas>
+
         </div>
     </div>
     <div class="clear"/>
