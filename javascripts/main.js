@@ -22,6 +22,7 @@ var currentTimeOfTheVideo = 0;
 var isConnected = true;
 //@param backupArray array - Array stored in local storage in case of connection failure
 var backupArray = {};
+var phpTarget = "/php/sendDataToDB.php";
 
 
 $(document).ready(function(){
@@ -36,26 +37,26 @@ var main = function(){
 	retrieveUserId();
 	var videoLength = 0;
 	var video = document.getElementById("videoTest");
-	//Here a hack was needed because Chrome sends "late" the 
-	//video metadata, thus needing canplaythrough to pick up the 
+	//Here a hack was needed because Chrome sends "late" the
+	//video metadata, thus needing canplaythrough to pick up the
 	//videolength
 	video.addEventListener("canplaythrough", function(){
 		videoLength = Math.floor(video.duration);
 		isVideoLoaded();
 	});
-	if(video.readyState > 3) {	
+	if(video.readyState > 3) {
 		isVideoLoaded();
 	}
 	video.addEventListener("click", function(){
 		init(this, videoLength);
 	});
-}   
-	
+}
+
 
 var checkConnection = function(){
 	$.ajax({
 	type: "GET",
-	url: "../php/sendDataToDB.php",
+	url: phpTarget,
 	data: "isConnected"
 	})
 	.done(function(data){
@@ -99,7 +100,7 @@ var generateRandomArray = function(){
 var retrieveUserId = function(){
     $.ajax({
 	type: "GET",
-	url: "../php/sendDataToDB.php",
+	url: phpTarget,
 	data: "uid"
 	})
 	.done(function(data){
@@ -118,7 +119,7 @@ var retrieveUserId = function(){
 var sendOneSecond = function(userId, second, value){
     $.ajax({
         type: "POST",
-        url: "../php/sendDataToDB.php",
+        url: phpTarget,
         data: {"uid" : userId,
                 "second" : second,
                 "value" : value
@@ -154,4 +155,3 @@ var recordPosition = function(){
     currentCursorValue = currentScale;
     currentTimeOfTheVideo++;
 }
-

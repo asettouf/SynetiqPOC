@@ -1,9 +1,9 @@
 //@author Adonis Settouf <adonis.settouf@gmail.com>
 
 //load the necessary google library to draw a line chart
-google.load('visualization', '1.1', {packages: ['line']});
+google.load('visualization', '1.1', {packages: ['corechart']});
 var videoId = 1;
-var phpTarget = "../php/testGraph.php";
+var phpTarget = "/php/testGraph.php";
 
 var videoLength = 0;
 //create the array needed to draw the chart
@@ -23,7 +23,7 @@ var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 	var arrayToPush = [];
 	var j = 0;
 	console.log(videoLength);
-	for (j; j < videoLength; j++){
+	for (j; j <= videoLength; j++){
 		i = 0;
 		arrayToPush.push(j);
 		for(i; i <datasFromDBForGivenVideo.user.length; i++ ){
@@ -48,8 +48,9 @@ var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 var drawChart = function(datasFromDBForGivenVideo) {
 	console.log("hello");
 	  var data = new google.visualization.DataTable();
-	  var lastSeries = datasFromDBForGivenVideo.user.length - 1;
 	  data = createDataTableFromDBDatas(data, datasFromDBForGivenVideo);
+	  var lastSeries = data.getNumberOfColumns() - 2;
+	  console.log(lastSeries);
 	  var options = {
 		chart: {
 		  title: 'User rating of video ' + videoId
@@ -57,14 +58,15 @@ var drawChart = function(datasFromDBForGivenVideo) {
 		width: 900,
 		height: 500,
 		series: {
-			1:{
-				color: "black",
-				strokeWidth: 5
-			}
-		}			
-	  };
 
-	  var chart = new google.charts.Line(document.getElementById('linechart'));
+		},
+	  };
+	  options["series"][lastSeries] = {
+		  color:"black",
+		  lineWidth: 5
+  	   };
+
+	  var chart = new google.visualization.LineChart(document.getElementById('linechart'));
 
 	  chart.draw(data, options);
 }
