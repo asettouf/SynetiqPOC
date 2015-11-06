@@ -8,3 +8,19 @@
     width: 100px;
     height: 100px;
 }
+
+.left{
+    float:left;
+}
+
+.left{
+    float:right;
+}
+
+.clear{
+    clear:both;
+}
+
+.scale{
+    vertical-align: middle;
+}
