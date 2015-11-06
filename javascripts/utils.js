@@ -76,9 +76,15 @@ var moveObject = function(id){
 var moveCursor = function(object){
     var leftObj = object.offset().left;
     var topObj = object.offset().top;
-    object.offset({top: topObj, left: cursorX - object.width()/2})
+    object.offset({top: topObj,
+        left: cursorX - object.width()/2
+    });
 }
-var onVideoLoaded = function(){
+var onVideoLoaded = function(video){
+    $(".loading").toggleClass("hidden");
+    $("#playbutton").offset({top: video.offsetTop + video.height/3,
+        left: video.offsetLeft + video.width/3
+    });
 	isRecordingPossible = true;
     return Math.floor(video.duration);
 }

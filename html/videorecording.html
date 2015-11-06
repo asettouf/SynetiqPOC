@@ -4,10 +4,11 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link type='text/css' rel='stylesheet' href="../css/main.css" />
+    <link type='text/css' rel='stylesheet' href="/css/main.css" />
+    <link type='text/css' rel='stylesheet' href="/css/videorecording.css" />
   </head>
   <body>
-    <div id='intro'>
+    <div id='intro' class="align-middle">
         <p>
             Hi there, <br/><br/>
             Please use the slider below to indicate how much you like the current
@@ -16,14 +17,16 @@
             Click on the image to start the playback.
         </p>
     </div>
-    <div id="video">
-		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="500" height="600">
+    <div id="video" class="align-middle">
+        <img src="loader.gif" class="loading"/>
+        <img id="playbutton" src="playbutton.png" class="loading hidden"/>
+		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="400" height="300" class="hidden loading">
             Your browser can't read this video
 		</video>
     </div>
     <div id='dislike'>Dislike</div>
     <div id='ruler'>
-        <canvas id="scale" width="500" height="100"></canvas>
+        <canvas id="scale" width="400" height="100"></canvas>
         <canvas id="cursor" width="25" height="100"></canvas>
     </div>
     <div id='like'>Like!</div>

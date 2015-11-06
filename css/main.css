@@ -1,5 +1,10 @@
-#cursor{
-    position: absolute;
-    left: 16.3%;
+.hidden{
+    visibility: hidden;
+    width: 0;
+    height: 0;
+}
 
+#playbutton{
+    width: 100px;
+    height: 100px;
 }
