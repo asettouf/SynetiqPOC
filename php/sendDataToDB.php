@@ -14,7 +14,6 @@ function postOneSecond(){
         $second = $_POST["second"];
         $value = $_POST["value"];
         $userId = $_POST["uid"];
-        echo $second;
         createRecordsForASecond($userId, 1, $second, $value, $GLOBALS["conn"]);
     }
     $GLOBALS["conn"] -> close();

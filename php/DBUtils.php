@@ -3,7 +3,7 @@
 	$username='';
 	$password='';
 	$dbname='';
-	retrieveDBParams(".dbparams");
+	retrieveDBParams("dbparams.txt");
 	$conn = new mysqli($servername, $username, $password, $dbname);
 	if (!$conn) {
         die("Connection failed: " . $conn -> connect_error);

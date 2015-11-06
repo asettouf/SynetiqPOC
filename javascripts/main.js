@@ -14,7 +14,8 @@ var currentCursorValue = 5;
 //@param scales array - the position of the scales
 var scales = [];
 //@param timeWhenVideoEnds int - length of the video in seconds
-var timeWhenVideoEnds = 10;
+var timeWhenVideoEnds = 0;
+var isEnded = false;
 //@param currentTimeOfTheVideo int - current time in the video in seconds
 var currentTimeOfTheVideo = 0;
 //@param isConnected boolean - Switch to false if connection is interrupted
@@ -27,44 +28,29 @@ $(document).ready(function(){
     main();
 });
 
-//principal function to be run once document is ready
+//to be run once document is ready
 var main = function(){
     drawScale("scale", 10);
     drawCursor("cursor");
     moveObject("scale");
 	retrieveUserId();
-	var wasConnectionLost = false;
-    var intervalID = setInterval(function(){
-        if(currentTimeOfTheVideo >= timeWhenVideoEnds){
-            clearInterval(intervalID);
-        }
-
-		recordPosition();
-		if (isConnected){
-			sendOneSecond(currentUserId, currentSecond, currentCursorValue);
-		}else{
-			wasConnectionLost = true;
-			createBackupArray();
-		}
-
-    }, INTERVAL_DELTA);
-	//check connection every 100 ms,
-	//send the backup datas when connection is reestablished
-	var intervalDuringDisconnection = setInterval(function(){
-		checkConnection();
-		console.log(isConnected && wasConnectionLost);
-		if (isConnected && wasConnectionLost){
-			sendBackupArray();
-			clearInterval(intervalDuringDisconnection);
-            wasConnectionLost = false;
-		} else{
-			console.log("Not connected or connection was not lost");
-		}
-        if(!wasConnectionLost && currentTimeOfTheVideo >= timeWhenVideoEnds){
-            clearInterval(intervalDuringDisconnection);
-        }
-	}, 100);
-};
+	var videoLength = 0;
+	var video = document.getElementById("videoTest");
+	//Here a hack was needed because Chrome sends "late" the 
+	//video metadata, thus needing canplaythrough to pick up the 
+	//videolength
+	video.addEventListener("canplaythrough", function(){
+		videoLength = Math.floor(video.duration);
+		isVideoLoaded();
+	});
+	if(video.readyState > 3) {	
+		isVideoLoaded();
+	}
+	video.addEventListener("click", function(){
+		init(this, videoLength);
+	});
+}   
+	
 
 var checkConnection = function(){
 	$.ajax({
@@ -79,7 +65,7 @@ var checkConnection = function(){
     });
 }
 
-var createBackupArray = function(){
+var saveValuesInBackupArray = function(){
 	backupArray = JSON.parse(localStorage.getItem("backupArray"));
 	backupArray.currentUserValues.push({"Second" : currentSecond,
 	"Value" : currentCursorValue});
@@ -139,7 +125,7 @@ var sendOneSecond = function(userId, second, value){
         }
     })
 	.done(function(data){
-		console.log(data);
+		//console.log(data);
 	}).fail(function(error){
 		isConnected = false;
 		console.log(error);
@@ -169,79 +155,3 @@ var recordPosition = function(){
     currentTimeOfTheVideo++;
 }
 
-//draw the scale used with a canvas
-//@param string id - id of the tag used to create the scale
-//@param int numOfVerticalBars - number of Vertical bars for the scale
-var drawScale = function(id, numOfVerticalBars){
-    var scale = $("#" + id);
-    var context = document.getElementById(id).getContext('2d');
-    var widthOneBar = scale.width()/numOfVerticalBars;
-    var height = scale.height();
-    var i = 0;
-    context.beginPath();
-    start = 0
-    context.moveTo(0, height/2);
-    context.lineTo(scale.width(), height/2);
-    context.stroke();
-    for (i; i<numOfVerticalBars + 1; i++){
-        scales.push(start);
-        context.moveTo(start,0);
-        context.lineTo(start,height);
-        context.stroke();
-        start += widthOneBar;
-    }
-}
-//draw a cursor with a canvas
-//@param string id - id of the tag used to create the cusrsor
-var drawCursor = function(id){
-    var cursor = $("#" + id);
-    var context = document.getElementById(id).getContext('2d');
-    var height = cursor.height();
-    var width = cursor.width();
-    context.fillStyle="black";
-    context.beginPath();
-    context.moveTo(0,height);
-    context.lineTo(width,height);
-    context.stroke();
-    context.moveTo(width, height);
-    context.lineTo(width, height * 0.5);
-    context.stroke();
-    context.moveTo(width, height * 0.5);
-    context.lineTo(width/2, 0);
-    context.stroke();
-    context.moveTo(width/2, 0);
-    context.lineTo(0, height * 0.5);
-    context.stroke();
-    context.moveTo(0, height * 0.5);
-    context.lineTo(0, height);
-    context.stroke();
-    context.fill();
-}
-
-//move object on the x axis
-//@param string id - id of the parent of the cursor
-var moveObject = function(id){
-    var object = $("#" + id);
-    var mousedown = false;
-    $("#cursor").mousedown(function(){
-        mousedown = !mousedown;
-    });
-    object.mousemove(function(e){
-        cursorX = e.pageX;
-        if (mousedown){
-            moveCursor($("#cursor"));
-        }
-    });
-    /* use to stop moving when releasing the left click
-    $(document).mouseup(function(){
-        moveCursor($("#cursor"));
-        mousedown = false;
-    });*/
-
-}
-
-var moveCursor = function(object){
-    var leftObj = object.offset().left;
-    var topObj = object.offset().top;
-    object.offset({top: topObj, left: cursorX - object.width()/2})
-}

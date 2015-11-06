@@ -2,24 +2,28 @@
 
 //load the necessary google library to draw a line chart
 google.load('visualization', '1.1', {packages: ['line']});
-var dd;
+var videoId = 1;
+var phpTarget = "../php/testGraph.php";
+
+var videoLength = 0;
 //create the array needed to draw the chart
 //@param data google.DataTable - datatable that holds the structure to draw the chart
 //@param array datasFromDBForGivenVideo - holds data from the database
 var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
-	dd = datasFromDBForGivenVideo;
 	data.addColumn('number', 'Seconds');
 	var i = 0;
 	for (i; i < datasFromDBForGivenVideo.user.length; i++){
 		//console.log("User" + datasFromDBForGivenVideo.user[i].id);
 		data.addColumn("number", "User" + datasFromDBForGivenVideo.user[i].id);
 	}
-	data.addColumn("number", "Average");
+	data.addColumn("number","Average");
+	//data.addColumn({"id": "", "type":"number", "label":"Average", "role": "style, color: black; stroke-width:2;"});
 	var average = 0;
 	var dataArray = [];
 	var arrayToPush = [];
 	var j = 0;
-	for (j; j < 10; j++){
+	console.log(videoLength);
+	for (j; j < videoLength; j++){
 		i = 0;
 		arrayToPush.push(j);
 		for(i; i <datasFromDBForGivenVideo.user.length; i++ ){
@@ -44,13 +48,20 @@ var createDataTableFromDBDatas = function(data, datasFromDBForGivenVideo){
 var drawChart = function(datasFromDBForGivenVideo) {
 	console.log("hello");
 	  var data = new google.visualization.DataTable();
+	  var lastSeries = datasFromDBForGivenVideo.user.length - 1;
 	  data = createDataTableFromDBDatas(data, datasFromDBForGivenVideo);
 	  var options = {
 		chart: {
-		  title: 'User rating of the video'
+		  title: 'User rating of video ' + videoId
 		},
 		width: 900,
-		height: 500
+		height: 500,
+		series: {
+			1:{
+				color: "black",
+				strokeWidth: 5
+			}
+		}			
 	  };
 
 	  var chart = new google.charts.Line(document.getElementById('linechart'));
@@ -61,11 +72,11 @@ var drawChart = function(datasFromDBForGivenVideo) {
 var retrieveVideoLength = function(){
 	$.ajax({
 	type: "GET",
-	url: "/php/testGraph.php",
-	data: {"videoIdlength": 1}
+	url: phpTarget,
+	data: {"videoIdlength": videoId}
 	})
 	.done(function(data){
-
+		videoLength = data;
 	}).error(function(error){
 		console.log(error);
 	});
@@ -76,9 +87,9 @@ var retrieveVideoLength = function(){
 var retrieveDatasInJson = function(){
 	$.ajax({
 	type: "GET",
-	url: "/php/testGraph.php",
+	url: phpTarget,
 	data: {"chartdata": "",
-			"videoId": 1
+			"videoId": videoId
 	}
 	})
 	.done(function(data){
@@ -92,6 +103,7 @@ var retrieveDatasInJson = function(){
 }
 $(document).ready(function(){
 	var ready = false;
+	retrieveVideoLength();
 	//here we need  to load google api and load data from the ajax call
 	//so, we set a boolean that indicates the loading of google library is done
 	//then we do the ajax call.
