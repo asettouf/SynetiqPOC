@@ -37,15 +37,14 @@ var main = function(){
 	retrieveUserId();
 	var videoLength = 0;
 	var video = document.getElementById("videoTest");
-	//Here a hack was needed because Chrome sends "late" the
-	//video metadata, thus needing canplaythrough to pick up the
-	//videolength
+	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){
-		videoLength = Math.floor(video.duration);
-		isVideoLoaded();
+		videoLength = onVideoLoaded(video);
+
 	});
+    //For Firefox to have the onVideoLoaded executed
 	if(video.readyState > 3) {
-		isVideoLoaded();
+        videoLength = onVideoLoaded(video);
 	}
 	video.addEventListener("click", function(){
 		init(this, videoLength);

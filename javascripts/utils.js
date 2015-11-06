@@ -78,12 +78,11 @@ var moveCursor = function(object){
     var topObj = object.offset().top;
     object.offset({top: topObj, left: cursorX - object.width()/2})
 }
-var isVideoLoaded = function(){
-	timeWhenVideoEnds = Math.floor(video.duration);
-	console.log(video.duration);
+var onVideoLoaded = function(){
 	isRecordingPossible = true;
+    return Math.floor(video.duration);
 }
-	
+
 var startRecording = function(videoLength){
 	var intervalID = setInterval(function(){
 		if(currentTimeOfTheVideo >= videoLength){
