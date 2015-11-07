@@ -38,7 +38,7 @@ var main = function(){
     calculateScalesOffset($("#scale").offset().left);
 	retrieveUserId();
 	var videoLength = 0;
-    var videoWrapper = document.getElementById("playbutton");
+    var playbutton = $("#playbutton");
 	var video = document.getElementById("videoTest");
 	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){
@@ -46,10 +46,11 @@ var main = function(){
 
 	});
     //For Firefox to have the onVideoLoaded executed
+
 	if(video.readyState > 3) {
         videoLength = onVideoLoaded(video);
 	}
-	videoWrapper.addEventListener("click", function(){
+	video.addEventListener("click", function(e){
 		init(video, videoLength);
 	});
 }

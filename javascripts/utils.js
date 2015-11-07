@@ -63,7 +63,7 @@ var drawCursor = function(id){
 var moveObject = function(id){
     var object = $("#" + id);
     var mousedown = false;
-    $("#playbutton").mousedown(function(){
+    $("#videoTest").mousedown(function(){
         mousedown = !mousedown;
     });
     object.mousemove(function(e){
