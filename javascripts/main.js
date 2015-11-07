@@ -34,9 +34,11 @@ var main = function(){
     drawScale("scale", 10);
     drawCursor("cursor");
     moveObject("scale");
+    console.log();
+    calculateScalesOffset($("#scale").offset().left);
 	retrieveUserId();
 	var videoLength = 0;
-    var videoWrapper = document.getElementById("video");
+    var videoWrapper = document.getElementById("playbutton");
 	var video = document.getElementById("videoTest");
 	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){

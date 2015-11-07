@@ -17,24 +17,23 @@
             Click on the image to start the playback.
         </p>
     </div>
-    <div id="video">
-        <img src="loader.gif" class="loading align-middle"/>
-        <img id="playbutton" src="playbutton.png" class="loading hidden"/>
-		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="400" height="300" class="align-middle hidden loading">
-            Your browser can't read this video
-		</video>
-    </div>
-    <div class="wrapper">
-        <div id='ruler'>
-            <div id='dislike' class="right">Dislike</div>
-            <div id="like" class="left">Like!</div>
-            <canvas id="scale" width="400" height="100"></canvas>
-            <canvas id="cursor" width="25" height="100"></canvas>
 
+        <div id="video">
+            <img id="playbutton" src="playbutton.png" class="loading hidden"/>
+    		<video id="videoTest" src="/videos/video1.ogv" type="ogv" width="60%" height="40%" class="hidden loading">
+                Your browser can't read this video
+    		</video>
+            <img src="loader.gif" class="loading  align-middle"/>
         </div>
-    </div>
-    <div class="clear"/>
-	 <script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
+        <br/>
+        <div id='ruler' class="align-middle">
+            <div id='dislike' class="align-horizontal align-vertical ">Dislike</div>
+            <canvas id="scale" width="400" height="100" class="align-horizontal"></canvas>
+            <canvas id="cursor" width="25" height="100" class="align-horizontal"></canvas>
+            <div id="like" class="align-horizontal align-vertical">Like!</div>
+        </div>
+
+	<script type="text/javascript" src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js'></script>
 	<script type="text/javascript" src="../javascripts/utils.js"></script>
     <script type="text/javascript" src="../javascripts/main.js"></script>
   </body>

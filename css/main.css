@@ -5,22 +5,32 @@
 }
 
 #playbutton{
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
 }
 
-.left{
-    float:left;
-}
-
-.left{
-    float:right;
-}
 
 .clear{
     clear:both;
 }
 
-.scale{
-    vertical-align: middle;
+body{
+    overflow-x: hidden;
+}
+
+.wrapper{
+    height: 500px;
+}
+.align-middle{
+    display: block;
+    margin: 0 auto;
+}
+
+.align-horizontal{
+    display:inline-block;
+}
+
+.align-vertical{
+    position: relative;
+    bottom: 50px;
 }

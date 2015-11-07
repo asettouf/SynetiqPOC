@@ -24,6 +24,13 @@ var drawScale = function(id, numOfVerticalBars){
         start += widthOneBar;
     }
 }
+
+var calculateScalesOffset = function(offsetToAdd){
+    var i = 0;
+    for (i; i<scales.length; i++){
+        scales[i] += offsetToAdd;
+    }
+}
 //draw a cursor with a canvas
 //@param string id - id of the tag used to create the cusrsor
 var drawCursor = function(id){
@@ -56,7 +63,7 @@ var drawCursor = function(id){
 var moveObject = function(id){
     var object = $("#" + id);
     var mousedown = false;
-    $("#video").mousedown(function(){
+    $("#playbutton").mousedown(function(){
         mousedown = !mousedown;
     });
     object.mousemove(function(e){
@@ -81,9 +88,11 @@ var moveCursor = function(object){
     });
 }
 var onVideoLoaded = function(video){
+    var vid = $(video);
+    var playbutton = $("#playbutton")
     $(".loading").toggleClass("hidden");
-    $("#playbutton").offset({top: video.offsetTop + video.height/3,
-        left: video.offsetLeft + video.width/3
+    playbutton.offset({top:vid.offset().top + vid.height()/2 - playbutton.height()/2,
+        left: vid.offset().left + vid.width()/2 - playbutton.width()/2
     });
 	isRecordingPossible = true;
     return Math.floor(video.duration);

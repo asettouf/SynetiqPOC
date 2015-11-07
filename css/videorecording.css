@@ -1,12 +1,18 @@
 #cursor{
     position: absolute;
-    left: 16.3%;
+    left: 49.5%;
 }
 
 #intro{
     width: 400px;
 }
 
-.align-middle{
-    margin: auto;
+#video{
+    position: relative;
+    left: 200px;
+    width: 80%;
+}
+
+#ruler{
+    width:38%;
 }
