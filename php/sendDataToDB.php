@@ -1,23 +1,33 @@
 <?php
 include "DBUtils.php";
-function sendUserId(){
+$DBUtil = new DButils();
+if (!isset($DBUtil)){
+    echo "Nique ta mere";
+}
+/*
+*Create a new user in the database and send the id to a get request
+*/
+function sendUserId($DBUtil){
     if( isset($_GET["uid"])){
-        $id = findLastIdInTable("Users");
+        $id = $DBUtil -> findLastIdInTable("Users");
         $id++;
-        createNewUser($id);
+        $DBUtil -> createNewUser($id);
         echo $id;
     }
 
 }
-function postOneSecond(){
-    if (isset($_POST["second"])  && isset($_POST["value"]) && !empty($_POST["value"]) && isset($_POST["uid"]) && !empty($_POST["uid"])){
+/*
+*Record one second of data in the database
+*/
+function postOneSecond($DBUtil){
+    if (isset($_POST["second"]) &&isset($_POST["videoId"]) && !empty($_POST["videoId"]) && isset($_POST["value"]) && !empty($_POST["value"]) && isset($_POST["uid"]) && !empty($_POST["uid"])){
         $second = $_POST["second"];
         $value = $_POST["value"];
         $userId = $_POST["uid"];
-        createRecordsForASecond($userId, 1, $second, $value, $GLOBALS["conn"]);
+        $videoId = $_POST["videoId"];
+        $DBUtil -> createRecordsForASecond($userId, $videoId, $second, $value);
     }
-    $GLOBALS["conn"] -> close();
 }
-sendUserId();
-postOneSecond();
+sendUserId($DBUtil);
+postOneSecond($DBUtil);
  ?>

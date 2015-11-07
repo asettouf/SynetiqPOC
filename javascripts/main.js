@@ -23,7 +23,7 @@ var isConnected = true;
 //@param backupArray array - Array stored in local storage in case of connection failure
 var backupArray = {};
 var phpTarget = "/php/sendDataToDB.php";
-
+var videoId = 1;
 
 $(document).ready(function(){
     main();
@@ -125,7 +125,8 @@ var sendOneSecond = function(userId, second, value){
         url: phpTarget,
         data: {"uid" : userId,
                 "second" : second,
-                "value" : value
+                "value" : value,
+                "videoId": videoId
         }
     })
 	.done(function(data){
