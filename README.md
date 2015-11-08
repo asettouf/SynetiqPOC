@@ -14,7 +14,7 @@ You need to have an Apache server, php and mysql installed on your computer
 Depending on your Apache configuration, you might have to modify the var *phpTarget* in js files to access the php side on your environment. You might as well need to modify links in html pages if you have a different architecture
 
 **TO DO**
-You need to add a .dbparams file in your php folder with the right parameters to query the database, it should contain in this order:
+You need to add a .dbparams file in your php folder with the right parameters to query the database, it should contain in this order: <br />
 *servername* <br />
 *username* <br />
 *password* <br />
