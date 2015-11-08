@@ -15,10 +15,10 @@ Depending on your Apache configuration, you might have to modify the var *phpTar
 
 **TO DO**
 You need to add a .dbparams file in your php folder with the right parameters to query the database, it should contain in this order:
-*servername*
-*username*
-*password*
-*database name*
+*servername__*
+*username__*
+*password__*
+*database name__*
 
 The user should have at least read access to the database
 
