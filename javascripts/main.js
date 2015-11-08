@@ -40,7 +40,7 @@ var main = function(){
     var playbutton = $("#playbutton");
 	var video = $("#videoTest")[0];
 	//For Chrome to have the onVideoLoaded executed
-	video.addEventListener("canplaythrough", function(){
+	video.addEventListener("canplay canplaythrough", function(){
 		videoLength = onVideoLoaded(video);
 	});
     //For Firefox to have the onVideoLoaded executed
@@ -48,7 +48,6 @@ var main = function(){
         videoLength = onVideoLoaded(video);
 	}
 	video.addEventListener("click", function(e){
-        console.log(videoLength);
 		init(video, videoLength);
 
 	});
