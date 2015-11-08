@@ -1,7 +1,7 @@
 runtime: php55
 api_version: 1
 application: synetiqpoc
-version: alpha-001
+version: alpha-002
 
 handlers:
 - url: /
