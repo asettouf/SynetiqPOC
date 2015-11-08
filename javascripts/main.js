@@ -40,7 +40,12 @@ var main = function(){
     moveObject("scale");
     calculateScalesOffset($("#scale").offset().left);
 	retrieveUserId();
-	var videoLength = 0;
+    initializeEventListener();
+}
+
+//start event listener to have full functionality when starting the video
+var initializeEventListener = function(){
+    var videoLength = 0;
     var playbutton = $("#playbutton");
 	var video = $("#videoTest")[0];
     //console.log(video.readyState);
