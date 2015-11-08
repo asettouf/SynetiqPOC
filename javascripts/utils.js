@@ -1,8 +1,10 @@
-//@param wasConnectionLost boolean - If connection was lost, prepare to send backupArray when connection is back
+//@param wasConnectionLost boolean - If connection was lost, prepare to send
+//backupArray when connection is back
 var wasConnectionLost = false;
 //@param isRecordingPossible boolean - Has video loaded on the client
 var isRecordingPossible = false;
-//@param continueSavingBackup boolean - used to stop saving to the backupArray if video is no longer buffered
+//@param continueSavingBackup boolean - used to stop saving to the backupArray
+//if video is no longer buffered
 var continueSavingBackup = true;
 
 //draw the scale used with a canvas
@@ -66,7 +68,12 @@ var drawCursor = function(id){
 var moveObject = function(id){
     var object = $("#" + id);
     var mousedown = false;
-    $("#videoTest").mousedown(function(){
+    $("#playbutton").mousedown(function(e){
+        e.stopPropagation();
+        mousedown = !mousedown;
+    });
+    $("#videoTest").mousedown(function(e){
+        e.stopPropagation();
         mousedown = !mousedown;
     });
     object.mousemove(function(e){
@@ -116,7 +123,8 @@ var startRecording = function(video, videoLength){
 			isEnded = true;
 			clearInterval(intervalID);
 		}
-        //check if we should stop sending data because video has stoped if connection is offline
+        //check if we should stop sending data because video has stoped if
+        //connection is offline
         video.networkState == 2 ? continueSavingBackup = false: "";
 		recordPosition();
 		if (isConnected){

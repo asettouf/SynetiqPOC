@@ -22,7 +22,9 @@ function sendUserId($DBUtil){
 *@param DBUtil DButils object - handle operations with the database
 */
 function postOneSecond($DBUtil){
-    if (isset($_POST["second"]) &&isset($_POST["videoId"]) && !empty($_POST["videoId"]) && isset($_POST["value"]) && !empty($_POST["value"]) && isset($_POST["uid"]) && !empty($_POST["uid"])){
+    if (isset($_POST["second"]) &&isset($_POST["videoId"]) &&
+!empty($_POST["videoId"]) && isset($_POST["value"]) && !empty($_POST["value"]) &&
+isset($_POST["uid"]) && !empty($_POST["uid"])){
         $second = $_POST["second"];
         $value = $_POST["value"];
         $userId = $_POST["uid"];

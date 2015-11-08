@@ -1,7 +1,8 @@
 //@author Adonis Settouf <adonis.settouf@gmail.com>
 
 
-//@param INTERVAL_DELTA int - set the delta of execution of the setInterval used for recording
+//@param INTERVAL_DELTA int - set the delta of execution of the setInterval used
+//for recording
 var INTERVAL_DELTA = 1000;
 //@param cursorX int - position of the cursor along the x axis
 var cursorX = 0;
@@ -15,6 +16,7 @@ var currentCursorValue = 5;
 var scales = [];
 //@param timeWhenVideoEnds int - length of the video in seconds
 var timeWhenVideoEnds = 0;
+//@param isEnded boolean - Checks if video ended
 var isEnded = false;
 //@param currentTimeOfTheVideo int - current time in the video in seconds
 var currentTimeOfTheVideo = 0;
@@ -50,9 +52,13 @@ var main = function(){
 	if(video.readyState > 2) {
         videoLength = onVideoLoaded(video);
 	}
-	video.addEventListener("click", function(e){
+    video.addEventListener("click", function(e){
+        e.stopPropagation();
+        init(video, videoLength);
+    })
+	playbutton.on("click", function(e){
+        e.stopPropagation();
 		init(video, videoLength);
-
 	});
 }
 
@@ -84,7 +90,8 @@ var sendBackupArray = function(){
 	console.log(backupArray);
 	var i = 0;
 	for (i; i< backupArray.currentUserValues.length; i++){
-		sendOneSecond(currentUserId,backupArray.currentUserValues[i].Second, backupArray.currentUserValues[i].Value);
+		sendOneSecond(currentUserId,backupArray.currentUserValues[i].Second,
+            backupArray.currentUserValues[i].Value);
 	}
 	backupArray = {currentUserValues: []};
 	localStorage.setItem("backupArray", JSON.stringify(backupArray));
