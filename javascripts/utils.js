@@ -1,7 +1,8 @@
+//@param wasConnectionLost boolean - If connection was lost, prepare to send backupArray when connection is back
 var wasConnectionLost = false;
-
+//@param isRecordingPossible boolean - Has video loaded on the client
 var isRecordingPossible = false;
-
+//@param continueSavingBackup boolean - used to stop saving to the backupArray if video is no longer buffered
 var continueSavingBackup = true;
 
 //draw the scale used with a canvas
@@ -82,6 +83,8 @@ var moveObject = function(id){
 
 }
 
+//move the cursor with mouse at the center
+//@param object JQuery object - cursor container
 var moveCursor = function(object){
     var leftObj = object.offset().left;
     var topObj = object.offset().top;
@@ -89,6 +92,9 @@ var moveCursor = function(object){
         left: cursorX - object.width()/2
     });
 }
+
+//show the video once loaded with play button
+//@param video div - tag containing the video
 var onVideoLoaded = function(video){
     var vid = $(video);
     var playbutton = $("#playbutton")
@@ -101,13 +107,16 @@ var onVideoLoaded = function(video){
     //unable to retrieve the correct duration from the video tag...
 }
 
+//start sending recording datas
+//@param video div - tag containing the video
+//@param videoLength int - length of the video
 var startRecording = function(video, videoLength){
 	var intervalID = setInterval(function(){
 		if(currentTimeOfTheVideo >= videoLength){
 			isEnded = true;
 			clearInterval(intervalID);
 		}
-        //check if we should stop sending data because video has stoped
+        //check if we should stop sending data because video has stoped if connection is offline
         video.networkState == 2 ? continueSavingBackup = false: "";
 		recordPosition();
 		if (isConnected){
@@ -122,6 +131,7 @@ var startRecording = function(video, videoLength){
 
 //check connection every 100 ms,
 //send the backup datas when connection is reestablished
+//@param videoLength int - length of the video
 var checkDisconnected = function(videoLength){
 	var intervalDuringDisconnection = setInterval(function(){
 	checkConnection();
@@ -139,6 +149,9 @@ var checkDisconnected = function(videoLength){
 	}, INTERVAL_DELTA/2);
 }
 
+//main function to run
+//@param video div - tag containing the video
+//@param videoLength int - length of the video
 var init = function(video, videoLength){
 	if (isRecordingPossible){
 		video.play();

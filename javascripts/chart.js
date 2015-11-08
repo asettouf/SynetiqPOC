@@ -14,10 +14,8 @@ $(document).ready(function(){
 			chart.init();
 			clearInterval(interval);
 		}
-
 	}, 1000);
 	google.setOnLoadCallback(function(){
-
 		ready = true;
 	});
 });

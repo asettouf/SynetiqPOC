@@ -22,7 +22,9 @@ var currentTimeOfTheVideo = 0;
 var isConnected = true;
 //@param backupArray array - Array stored in local storage in case of connection failure
 var backupArray = {};
+//@param phpTarget string - url to hit to retrieve to send datas to the DB
 var phpTarget = "/php/sendDataToDB.php";
+//@param videoId int - id of the video for which we send the datas
 var videoId = 1;
 
 $(document).ready(function(){
@@ -54,7 +56,7 @@ var main = function(){
 	});
 }
 
-
+//check if user is still connected
 var checkConnection = function(){
 	$.ajax({
 	type: "GET",
@@ -68,6 +70,7 @@ var checkConnection = function(){
     });
 }
 
+//save the backup array to local storage
 var saveValuesInBackupArray = function(){
 	backupArray = JSON.parse(localStorage.getItem("backupArray"));
 	backupArray.currentUserValues.push({"Second" : currentSecond,
@@ -75,8 +78,8 @@ var saveValuesInBackupArray = function(){
 	localStorage.setItem("backupArray", JSON.stringify(backupArray));
 }
 
+//send the backup array
 var sendBackupArray = function(){
-
 	backupArray = JSON.parse(localStorage.getItem("backupArray"));
 	console.log(backupArray);
 	var i = 0;
@@ -118,6 +121,9 @@ var retrieveUserId = function(){
 
 
 //post one second to DB with ajax POST request
+//@param userId int - user for the current video
+//@param second int - second for the current value sent
+//@param value int - value for the current second
 var sendOneSecond = function(userId, second, value){
     $.ajax({
         type: "POST",

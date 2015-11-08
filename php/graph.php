@@ -2,6 +2,7 @@
 include "DBUtils.php";
 $DButil = new DBUtils();
 //respond to get call to send datas from db (needs an id to retrieve relevant datas)
+//@param DBUtil DButils object - handle operations with the database
 function sendResultArray($DBUtil) {
 	//echo $isRequestingChart;
 	if (isset($_GET["chartdata"]) && isset($_GET["videoId"]) && !empty($_GET["videoId"])){
@@ -13,6 +14,7 @@ function sendResultArray($DBUtil) {
 
 }
 //retrieve the video length to send to ajax call to adjust x-axis of the chart
+//@param DBUtil DButils object - handle operations with the database
 function sendVideoLength($DBUtil){
 	if (isset($_GET["videoIdlength"]) && !empty($_GET["videoIdlength"])){
 		$length = $DBUtil -> getVideoLengthFromDB($_GET["videoIdlength"]);

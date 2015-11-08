@@ -1,17 +1,25 @@
+//Class to draw the chart
+//@param id int - Video id
 function Chart(id){
-
+	//@param videoID int - id of the video for which we want to generate a graph
 	this.videoId = id;
+	//@param phpTarget string - url to hit to retrieve datas from the DB
 	this.phpTarget = "../php/graph.php";
+	//@param videoLength int - Length of the video in second
 	this.videoLength;
+	//@param datasFromDBForGivenVideo array - raw datas to parse from DB to provide
+	//Google API to draw the chart
 	this.datasFromDBForGivenVideo;
-	//create the array needed to draw the chart
-	//@param data google.DataTable - datatable that holds the structure to draw the chart
-	//@param array datasFromDBForGivenVideo - holds data from the database
 
+	//main loop to draw the graph
 	this.init = function(){
 		this.retrieveVideoLength();
 		this.retrieveDatasInJson();
 	}
+
+	//create the data table for google API call
+	//@param data google.DataTable - data table that will have the datas for the Google API call
+	//@return data google.DataTable - data table filled with datas and average
 	this.createDataTableFromDBData = function(data){
 		data.addColumn('number', 'Seconds');
 		var i = 0;
@@ -72,12 +80,13 @@ function Chart(id){
 			  color:"black",
 			  lineWidth: 5
 	  	   };
-
+		   $(".loading").toggleClass("hidden");
 		  var chart = new google.visualization.LineChart(document.getElementById('linechart'));
 
 		  chart.draw(data, options);
 	}
 
+	//retrieve video length from DB given the id
 	this.retrieveVideoLength = function(){
 		var that = this;
 		$.ajax({

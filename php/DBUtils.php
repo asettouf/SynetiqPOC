@@ -1,10 +1,15 @@
 <?php
 
 class DBUtils{
+    //@param servername string - hostname of the server
     private $servername;
+    //@param username string -username with rights on the DB
 	private $username;
+    //@param password string - password of the username with rights on the DB
 	private $password;
+    //@param dbname string - name of the DB used
 	private $dbname;
+    //@param conn mysqli object -connection to the DB
     private $conn;
 
     public function DBUtils(){
@@ -62,26 +67,19 @@ class DBUtils{
 		return $valueArray;
 	}
     //retrieve video length from DB
+    //@param videoId int - ID of the video
     public function getVideoLengthFromDB($videoId){
         $query = "SELECT Length FROM Videos WHERE Videos.VideoID=".$videoId.";";
         $result = $this -> conn -> query($query);
 
         return $result -> fetch_assoc()["Length"];
     }
-	//insert records each second into the db
-	//The keys in the array are actually the second with the method
-	//used in the javascript method
-	public function createRecordsFromArray($userId, $videoId, $array){
-
-		$statement = $this -> conn -> prepare("INSERT INTO Records(SECOND, VALUE, USERID, VIDEOID) VALUES(?,?,?,?)");
-		foreach( $array as $key => $value){
-				$statement -> bind_param("iiii",  $key, $value, $userId, $videoId);
-				$statement -> execute();
-				//echo "Key : ".$key." Value: ".$value;
-			}
-	}
 
     //create a record for one second
+    //@param userId int - ID of the user
+    //@param videoId int - ID of the video
+    //@param second int - second of the record
+    //@param value int - value of the record
     public function createRecordsForASecond($userId, $videoId, $second, $value){
         $statement = $this -> conn -> prepare("INSERT INTO Records(SECOND, VALUE, USERID, VIDEOID) VALUES(?,?,?,?)");
 		$statement -> bind_param("iiii",  $second, $value, $userId, $videoId);
@@ -90,6 +88,7 @@ class DBUtils{
     }
 
 	//create a new User every time a valid ajax call is received
+    //@param userId int - ID of the user
 	public function createNewUser($id){
 		$stmt = $this -> conn -> prepare("INSERT INTO Users (USERNAME) VALUES(?)");
 		$username = "User".$id;
@@ -99,6 +98,7 @@ class DBUtils{
 	}
 
 	//find the last userid in the table to create a new one for the ajax call
+    //@param table string - name of the table to look up
 	public function findLastIdInTable($table){
 		$query = "SELECT * FROM ".$table;
 		$result = $this -> conn -> query($query);
