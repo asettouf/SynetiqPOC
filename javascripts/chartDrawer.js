@@ -55,9 +55,13 @@ function Chart(id){
 		  var lastSeries = data.getNumberOfColumns() - 2;
 		  console.log(lastSeries);
 		  var options = {
-			chart: {
-			  title: 'User rating of video ' + this.videoId
-			},
+			title: 'User rating of video ' + this.videoId,
+			hAxis: {
+	          title: 'Time in second'
+	        },
+	        vAxis: {
+	          title: 'Rating'
+	        },
 			width: 900,
 			height: 500,
 			series: {
@@ -75,7 +79,7 @@ function Chart(id){
 	}
 
 	this.retrieveVideoLength = function(){
-		var that = this
+		var that = this;
 		$.ajax({
 		type: "GET",
 		url: this.phpTarget,
