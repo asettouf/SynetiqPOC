@@ -145,8 +145,9 @@ var checkDisconnected = function(videoLength){
 	checkConnection();
 	if (isConnected && wasConnectionLost){
 		sendBackupArray();
-		clearInterval(intervalDuringDisconnection);
-		wasConnectionLost = false;
+        wasConnectionLost = false;
+		//clearInterval(intervalDuringDisconnection);
+
 	} else{
 		//console.log("Not connected or connection was not lost");
 	}

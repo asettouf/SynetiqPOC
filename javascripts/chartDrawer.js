@@ -28,7 +28,6 @@ function Chart(id){
 			data.addColumn("number", "User" + this.datasFromDBForGivenVideo.user[i].id);
 		}
 		data.addColumn("number","Average");
-		//data.addColumn({"id": "", "type":"number", "label":"Average", "role": "style, color: black; stroke-width:2;"});
 		var average = 0;
 		var dataArray = [];
 		var arrayToPush = [];

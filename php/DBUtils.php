@@ -46,17 +46,15 @@ class DBUtils{
 			while($row = $result -> fetch_assoc()){
                 if($i != 0){
                     if (strcmp($previousUser, $row["userid"])){
+
                         array_push($valueArray["user"], $userValues);
                         $userValues = array("id" => 0, "values" => array());
-                    } else{
-                        array_push($userValues["values"], $row["value"]);
-                        //array_push($valueArray["user"], $userValues);
                     }
                 }
 				$previousUser = $row["userid"];
                 $i++;
                 $userValues["id"] = $previousUser;
-
+                array_push($userValues["values"], $row["value"]);
 			}
             array_push($valueArray["user"], $userValues);
 		} else {
