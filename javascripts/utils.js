@@ -1,5 +1,3 @@
-
-
 var wasConnectionLost = false;
 
 var isRecordingPossible = false;

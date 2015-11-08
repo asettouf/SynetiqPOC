@@ -34,7 +34,6 @@ var main = function(){
     drawScale("scale", 10);
     drawCursor("cursor");
     moveObject("scale");
-    console.log();
     calculateScalesOffset($("#scale").offset().left);
 	retrieveUserId();
 	var videoLength = 0;
@@ -43,10 +42,8 @@ var main = function(){
 	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){
 		videoLength = onVideoLoaded(video);
-
 	});
     //For Firefox to have the onVideoLoaded executed
-
 	if(video.readyState > 3) {
         videoLength = onVideoLoaded(video);
 	}
