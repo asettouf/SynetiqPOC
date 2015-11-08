@@ -38,7 +38,7 @@ var main = function(){
 	retrieveUserId();
 	var videoLength = 0;
     var playbutton = $("#playbutton");
-	var video = document.getElementById("videoTest");
+	var video = $("#videoTest")[0];
 	//For Chrome to have the onVideoLoaded executed
 	video.addEventListener("canplaythrough", function(){
 		videoLength = onVideoLoaded(video);
@@ -48,7 +48,9 @@ var main = function(){
         videoLength = onVideoLoaded(video);
 	}
 	video.addEventListener("click", function(e){
+        console.log(videoLength);
 		init(video, videoLength);
+
 	});
 }
 

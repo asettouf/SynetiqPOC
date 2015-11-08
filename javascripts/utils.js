@@ -95,7 +95,8 @@ var onVideoLoaded = function(video){
         left: vid.offset().left + vid.width()/2 - playbutton.width()/2
     });
 	isRecordingPossible = true;
-    return Math.floor(video.duration);
+    return 56; //here we need to implement the duration from the DB, Chrome being
+    //unable to retrieve the correct duration from the video tag...
 }
 
 var startRecording = function(videoLength){

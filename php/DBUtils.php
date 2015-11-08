@@ -93,7 +93,6 @@ class DBUtils{
 	public function createNewUser($id){
 		$stmt = $this -> conn -> prepare("INSERT INTO Users (USERNAME) VALUES(?)");
 		$username = "User".$id;
-
 		$stmt -> bind_param("s", $username);
 		$stmt -> execute();
         $this -> conn -> close();
@@ -102,7 +101,6 @@ class DBUtils{
 	//find the last userid in the table to create a new one for the ajax call
 	public function findLastIdInTable($table){
 		$query = "SELECT * FROM ".$table;
-
 		$result = $this -> conn -> query($query);
 		$i = 0;
 		if ($result -> num_rows > 0){
