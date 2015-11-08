@@ -1,7 +1,7 @@
 function Chart(id){
 
 	this.videoId = id;
-	this.phpTarget = "/php/graph.php";
+	this.phpTarget = "../php/graph.php";
 	this.videoLength;
 	this.datasFromDBForGivenVideo;
 	//create the array needed to draw the chart
