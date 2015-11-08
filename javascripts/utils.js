@@ -2,6 +2,8 @@ var wasConnectionLost = false;
 
 var isRecordingPossible = false;
 
+var continueSavingBackup = true;
+
 //draw the scale used with a canvas
 //@param string id - id of the tag used to create the scale
 //@param int numOfVerticalBars - number of Vertical bars for the scale
@@ -99,18 +101,20 @@ var onVideoLoaded = function(video){
     //unable to retrieve the correct duration from the video tag...
 }
 
-var startRecording = function(videoLength){
+var startRecording = function(video, videoLength){
 	var intervalID = setInterval(function(){
 		if(currentTimeOfTheVideo >= videoLength){
 			isEnded = true;
 			clearInterval(intervalID);
 		}
+        //check if we should stop sending data because video has stoped
+        video.networkState == 2 ? continueSavingBackup = false: "";
 		recordPosition();
 		if (isConnected){
 			sendOneSecond(currentUserId, currentSecond, currentCursorValue);
 		}else{
 			wasConnectionLost = true;
-			saveValuesInBackupArray();
+			continueSavingBackup ? saveValuesInBackupArray(): "";
 		}
 
 	}, INTERVAL_DELTA);
@@ -139,7 +143,7 @@ var init = function(video, videoLength){
 	if (isRecordingPossible){
 		video.play();
         $("#playbutton").hasClass("hidden")? "": $("#playbutton").toggleClass("hidden");
-		isEnded? "" : startRecording(videoLength);
+		isEnded? "" : startRecording(video, videoLength);
 		checkDisconnected(videoLength);
 	}
 }

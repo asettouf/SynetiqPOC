@@ -39,12 +39,13 @@ var main = function(){
 	var videoLength = 0;
     var playbutton = $("#playbutton");
 	var video = $("#videoTest")[0];
+    //console.log(video.readyState);
 	//For Chrome to have the onVideoLoaded executed
-	video.addEventListener("canplay canplaythrough", function(){
+	video.addEventListener("canplaythrough", function(){
 		videoLength = onVideoLoaded(video);
 	});
     //For Firefox to have the onVideoLoaded executed
-	if(video.readyState > 3) {
+	if(video.readyState > 2) {
         videoLength = onVideoLoaded(video);
 	}
 	video.addEventListener("click", function(e){
