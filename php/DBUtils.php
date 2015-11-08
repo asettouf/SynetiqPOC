@@ -10,6 +10,7 @@ class DBUtils{
     public function DBUtils(){
         $this -> retrieveDBParams(".dbparams");
     	$this -> conn = new mysqli($this -> servername, $this -> username, $this -> password, $this -> dbname);
+        //$this -> conn = new mysqli(null, 'synetiq', 'Synetiq1234', 'synetiq', '/cloudsql/synetiqpoc:synetiq');
     	if (!$this -> conn) {
             die("Connection failed: " . $conn -> connect_error);
         }
