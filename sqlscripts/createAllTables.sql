@@ -1,4 +1,4 @@
-USE synetiq;
+USE db_test;
 
 CREATE TABLE Users(
     USERID INT NOT NULL AUTO_INCREMENT,
