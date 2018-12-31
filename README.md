@@ -23,6 +23,3 @@ Depending on your Apache configuration, you might have to modify the var *phpTar
 * You also need to create a videos folder to implement video (by default the video should be called video1.ogv) <br />
 
 The user should have at least read access to the database
-
-Please contact me in case of issues if you are to use this project: adonis.settouf@gmail.com
-Please don't hesitate to use this project if you need inspiration in your work.
